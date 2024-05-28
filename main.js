@@ -21,9 +21,14 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('esteira', 'https://via.placeholder.com/800x50');
-    this.load.image('item', 'https://via.placeholder.com/50');
-    this.load.image('cesto', 'https://via.placeholder.com/100x100');
+    // URLs de imagens de exemplo
+    this.load.image('esteira', 'https://www.example.com/esteira.png'); // Atualize para a URL real da imagem
+    this.load.image('item1', 'https://i.imgur.com/sGJeZMJ.png'); // Garrafa de plástico
+    this.load.image('item2', 'https://i.imgur.com/3nN09jv.png'); // Papel amassado
+    this.load.image('item3', 'https://i.imgur.com/GzVV9ef.png'); // Lata
+    this.load.image('cesto1', 'https://i.imgur.com/z2b6VGX.png'); // Cesto de plástico
+    this.load.image('cesto2', 'https://i.imgur.com/jI9yQid.png'); // Cesto de papel
+    this.load.image('cesto3', 'https://i.imgur.com/7yZJ5zG.png'); // Cesto de metal
 }
 
 function create() {
@@ -43,10 +48,9 @@ function create() {
 
     // Grupo de cestos de reciclagem
     this.cestos = this.physics.add.staticGroup();
-    this.cestos.create(150, 550, 'cesto').setScale(1).refreshBody();
-    this.cestos.create(350, 550, 'cesto').setScale(1).refreshBody();
-    this.cestos.create(550, 550, 'cesto').setScale(1).refreshBody();
-    this.cestos.create(750, 550, 'cesto').setScale(1).refreshBody();
+    this.cestos.create(150, 550, 'cesto1').setScale(1).refreshBody();
+    this.cestos.create(350, 550, 'cesto2').setScale(1).refreshBody();
+    this.cestos.create(550, 550, 'cesto3').setScale(1).refreshBody();
 
     // Permitir arrastar e soltar itens de lixo
     this.input.on('dragstart', onDragStart, this);
@@ -61,7 +65,9 @@ function create() {
 }
 
 function addItem() {
-    const item = this.items.create(Phaser.Math.Between(100, 700), 0, 'item');
+    const itemTypes = ['item1', 'item2', 'item3'];
+    const itemType = Phaser.Utils.Array.GetRandom(itemTypes);
+    const item = this.items.create(Phaser.Math.Between(100, 700), 0, itemType);
     item.setInteractive();
     this.input.setDraggable(item);
 }
