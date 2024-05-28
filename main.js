@@ -2,6 +2,7 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    parent: 'game-container',
     backgroundColor: '#87ceeb',
     scene: {
         preload: preload,
@@ -11,7 +12,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 },
+            gravity: { y: 0 },
             debug: false
         }
     }
@@ -26,9 +27,13 @@ function preload() {
 }
 
 function create() {
+    // Esteira rolante
     this.esteira = this.add.tileSprite(400, 100, 800, 50, 'esteira');
 
+    // Grupo de itens de lixo
     this.items = this.physics.add.group();
+
+    // Adicionar itens periodicamente
     this.time.addEvent({
         delay: 2000,
         callback: addItem,
@@ -36,16 +41,19 @@ function create() {
         loop: true
     });
 
+    // Grupo de cestos de reciclagem
     this.cestos = this.physics.add.staticGroup();
     this.cestos.create(150, 550, 'cesto').setScale(1).refreshBody();
     this.cestos.create(350, 550, 'cesto').setScale(1).refreshBody();
     this.cestos.create(550, 550, 'cesto').setScale(1).refreshBody();
     this.cestos.create(750, 550, 'cesto').setScale(1).refreshBody();
 
+    // Permitir arrastar e soltar itens de lixo
     this.input.on('dragstart', onDragStart, this);
     this.input.on('drag', onDrag, this);
     this.input.on('dragend', onDragEnd, this);
 
+    // Pontuação e erros
     this.score = 0;
     this.errors = 0;
     this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
